@@ -83,6 +83,8 @@ Yr4ZPChxNrik1CFLxfkesoReXN8kU/8918D0GLNeVt/C\n\
             self.account_number = account_number
             self.corpId = corpId
             self.sessionId = ""
+            self.deviceId = ""
+            self.refNo = ""
             self.mobileId = ""
             self.clientId = ""
             self.cif = ""
