@@ -1,0 +1,71 @@
+[
+    {
+        "success": true,
+        "code": 200,
+        "message": "Successfully!"
+    },
+    {
+        "success": false,
+        "code": 400,
+        "message": "Bad request!"
+    },
+    {
+        "success": false,
+        "code": 401,
+        "message": "Unauthorized!",
+        "des": "When need to relogin if need, it mean the session token has end before call transaction or balance"
+    },
+    {
+        "success": false,
+        "code": 403,
+        "message": "Forbidden!"
+        
+    },
+    {
+        "success": false,
+        "code": 404,
+        "message": "Not found!",
+        "des": "For all not found case(will detail what not found in each case) like account number not found"
+    },
+    {
+        "success": false,
+        "code": 405,
+        "message": "Method Not Allowed!"
+    },
+    {
+        "success": false,
+        "code": 408,
+        "message": "Timeout occurred!"
+    },
+    {
+        "success": false,
+        "code": 444,
+        "message": "Invalid username/password or account_number!"
+    },
+    {
+        "success": false,
+        "code": 448,
+        "message": "Blocked account with negative balances!"
+    },
+    {
+        "success": false,
+        "code": 449,
+        "message": "Blocked account!"
+    },
+    {
+        "success": false,
+        "code": 500,
+        "message": "Internal Server Error!"
+    },
+    {
+        "success": false,
+        "code": 503,
+        "message": "Service Unavailable!"
+    },
+    {
+        "success": false,
+        "code": 520,
+        "message": "Unknown Error!"
+    }
+
+]

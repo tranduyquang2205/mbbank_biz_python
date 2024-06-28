@@ -1,0 +1,101 @@
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# dotenv environment variables file
+.env
+
+# Compiled source
+/dist/
+/build/
+
+/coverage/
+
+# Dependency directories
+jspm_packages/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# IDE specific files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Python
+*.pyc
+__pycache__/
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Ruby
+*.gem
+*.rbc
+
+# Go
+bin/
+*.exe
+
+# Rust
+target/
+Cargo.lock
+
+# Mac
+*.dmg
+
+# Windows
+*.exe
+*.dll
+*.msi
+*.bat
+
+# Archive files
+*.zip
+*.tar.gz
+*.7z
+*.rar
+
+# Backup files
+*.bak
+*.old
+*.orig
+
+# Data files
+*.csv
+*.tsv
+*.sqlite
+
+# Images
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+
+# Other
+*.swp
+*.tmp
+*.temp
+*.pid
+*.seed
+*.backup
+*.bak
+*.bk
+
+test.py
