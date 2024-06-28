@@ -15,13 +15,14 @@ app = FastAPI()
 def read_root():
     return {"Hello": "World"}
 class LoginDetails(BaseModel):
+    corp_id: str
     username: str
     password: str
     account_number: str
 @app.post('/login', tags=["login"])
 def login_api(input: LoginDetails):
     try:
-        mbbank = MBBANK(input.username, input.password, input.account_number)
+        mbbank = MBBANK(input.corp_id,input.username, input.password, input.account_number)
         response = mbbank.doLogin()
         return APIResponse.json_format(response)
     except Exception as e:
@@ -32,7 +33,7 @@ def login_api(input: LoginDetails):
 @app.post('/balance', tags=["balance"])
 def confirm_api(input: LoginDetails):
     try:
-        mbbank = MBBANK(input.username, input.password, input.account_number)
+        mbbank = MBBANK(input.corp_id,input.username, input.password, input.account_number)
         response = mbbank.getlistAccount()
         return APIResponse.json_format(response)
     except Exception as e:
@@ -47,6 +48,7 @@ def confirm_api(input: LoginDetails):
 #         return verify_otp
     
 class Transactions(BaseModel):
+    corp_id: str
     username: str
     password: str
     account_number: str
@@ -59,7 +61,7 @@ class Transactions(BaseModel):
 @app.post('/get_transactions', tags=["get_transactions"])
 def get_transactions_api(input: Transactions):
     try:
-        mbbank = MBBANK(input.username, input.password, input.account_number)
+        mbbank = MBBANK(input.corp_id,input.username, input.password, input.account_number)
         response = mbbank.getHistories(input.from_date, input.to_date, input.account_number,input.page,input.size,input.limit)
         return APIResponse.json_format(response)
     except Exception as e:
