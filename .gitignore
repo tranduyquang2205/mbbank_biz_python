@@ -99,3 +99,4 @@ Cargo.lock
 *.bk
 
 test.py
+data/*.txt
