@@ -162,18 +162,26 @@ Yr4ZPChxNrik1CFLxfkesoReXN8kU/8918D0GLNeVt/C\n\
         random_string = ''.join(random.choice(characters) for _ in range(length))
         return random_string
     def createTaskCaptcha(self, base64_img):
-        url = "https://mbbiz.pay2world.vip/predict"
-
+        url_1 = 'https://captcha.pay2world.vip//mbbiz'
+        url_2 = 'https://captcha1.pay2world.vip//mbbiz'
+        url_3 = 'https://captcha2.pay2world.vip//mbbiz'
+        
         payload = json.dumps({
         "image_base64": base64_img
         })
         headers = {
         'Content-Type': 'application/json'
         }
-
-        response = requests.request("POST", url, headers=headers, data=payload)
-
-        return (response.json())
+        
+        for _url in [url_1, url_2, url_3]:
+            try:
+                response = requests.request("POST", _url, headers=headers, data=payload, timeout=10)
+                if response.status_code in [404, 502]:
+                    continue
+                return json.loads(response.text)
+            except:
+                continue
+        return {}
     def make_ref_no(self,user_id=None):
         if user_id:
             return f"{user_id}-{datetime.now().strftime('%Y%m%d%H%M%S%f')}"
@@ -197,11 +205,11 @@ Yr4ZPChxNrik1CFLxfkesoReXN8kU/8918D0GLNeVt/C\n\
             return {"status": False, "msg": "Error generate_captcha"}
         result = self.createTaskCaptcha(base64_captcha_img)
         # captchaText = self.checkProgressCaptcha(json.loads(task)['taskId'])
-        if result['prediction']:
+        if 'prediction' in result and result['prediction']:
             captcha_value = result['prediction']
             return {"status": True, "key": self.guid, "captcha": captcha_value}
         else:
-            return {"status": False, "msg": "Error getTaskResult"}
+            return {"status": False, "msg": "Error solve captcha", "data": result}
 
 
     def encrypt_data(self, data):
