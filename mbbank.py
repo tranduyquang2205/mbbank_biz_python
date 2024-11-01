@@ -29,17 +29,9 @@ class MBBANK:
         self.url = {
     "getCaptcha": "https://ebank.mbbank.com.vn/corp/common/generateCaptcha",
     "login": "https://ebank.mbbank.com.vn/corp/common/do-login-v2",
-    "authen-service": "https://vcbdigibiz.vietcombank.com.vn/w1/authen-service/v1/api-",
-    "getHistories": "https://ebank.mbbank.com.vn/corp/transaction/v2/getTransactionHistoryV3",
-    "tranferOut": "https://vcbdigibiz.vietcombank.com.vn/w1/transferout-service/v1/maker/init-247-acc",
-    "genOtpOut": "https://vcbdigibiz.vietcombank.com.vn/w1/napas-service/v1/transfer-gen-otp",
-    "genOtpIn": "https://vcbdigibiz.vietcombank.com.vn/w1/transfer-service/v1/transfer-gen-otp",
-    "confirmTranferOut": "https://vcbdigibiz.vietcombank.com.vn/w1/transferout-service/v1/maker/confirm-247-acc",
-    "confirmTranferIn": "https://vcbdigibiz.vietcombank.com.vn/w1/transferin-service/v1/maker/confirm",
-    "tranferIn": "https://vcbdigibiz.vietcombank.com.vn/w1/transferin-service/v1/maker/init",
-    "getBanks": "https://vcbdigibiz.vietcombank.com.vn/w1/contact-service/v1/bank/list",
-    "getAccountDeltail": "https://vcbdigibiz.vietcombank.com.vn/w1/bank-service/v1/get-account-detail",
+    "getHistories": "https://api-public.mbbank.com.vn/ms/transaction-statement/v1/transaction-statement",
     "getlistAccount": "https://ebank.mbbank.com.vn/corp/balance/v2/getBalance",
+    "get_token_apigee":"https://ebank.mbbank.com.vn/corp/common/get-token-apigee"
 }
         self.lang = 'VN'
         self._timeout = 60
@@ -233,30 +225,106 @@ Yr4ZPChxNrik1CFLxfkesoReXN8kU/8918D0GLNeVt/C\n\
 
         return json.loads(response.text)
 
-    def curlPost(self, url, data):
-        headers = {
-        'Accept': 'application/json, text/plain, */*',
-        'Accept-Language': 'en-US,en;q=0.9',
-        'Connection': 'keep-alive',
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Origin': 'https://ebank.mbbank.com.vn',
-        'Referer': 'https://ebank.mbbank.com.vn/cp/pl/login?logout=1',
-        'Sec-Fetch-Dest': 'empty',
-        'Sec-Fetch-Mode': 'cors',
-        'Sec-Fetch-Site': 'same-origin',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0',
-        'X-Request-Id': '2024062116262750',
-        'biz-platform': 'biz-1.0',
-        'biz-tracking': '/cp/pl/login/1',
-        'biz-version': '1.1.31942.1616',
-        'sec-ch-ua': '"Not/A)Brand";v="8", "Chromium";v="126", "Microsoft Edge";v="126"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"'
-        }
-        if self.sessionId:
-            headers['Authorization'] = 'Bearer ' + self.sessionId
+    def curlPost(self, url, data,type="ebank"):
+        if type == "ebank":
+            headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Connection': 'keep-alive',
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Origin': 'https://ebank.mbbank.com.vn',
+            'Referer': 'https://ebank.mbbank.com.vn/cp/pl/login?logout=1',
+            'Sec-Fetch-Dest': 'empty',
+            'Sec-Fetch-Mode': 'cors',
+            'Sec-Fetch-Site': 'same-origin',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0',
+            'X-Request-Id': self.refNo,
+            'biz-platform': 'biz-1.0',
+            'biz-tracking': '/cp/pl/login/1',
+            'biz-version': '1.1.31942.1616',
+            'sec-ch-ua': '"Not/A)Brand";v="8", "Chromium";v="126", "Microsoft Edge";v="126"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"'
+            }
+            if self.sessionId:
+                headers['Authorization'] = 'Bearer ' + self.sessionId
+        if type == "public":
+            headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'ClientMessageId': self.refNo,
+            'Connection': 'keep-alive',
+            'Origin': 'https://ebank.mbbank.com.vn',
+            'RefNo': self.refNo,
+            'Referer': 'https://ebank.mbbank.com.vn/',
+            'Sec-Fetch-Dest': 'empty',
+            'Sec-Fetch-Mode': 'cors',
+            'Sec-Fetch-Site': 'same-site',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0',
+            'biz-platform': 'biz-1.0',
+            'biz-tracking': '/cp//1',
+            'biz-version': '1.37342.1940',
+            'sec-ch-ua': '"Chromium";v="130", "Microsoft Edge";v="130", "Not?A_Brand";v="99"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sessionId': self.sessionId
+            }
+            if self.accessToken:
+                headers['Authorization'] = 'Bearer ' + self.accessToken
 
         response = self.session.post(url, headers=headers, data=json.dumps(data))
+
+        result = response.json()
+        return result
+    def curlGet(self, url, headers=None,type="ebank"):
+        
+        if type == "ebank":
+            headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Connection': 'keep-alive',
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Origin': 'https://ebank.mbbank.com.vn',
+            'Referer': 'https://ebank.mbbank.com.vn/cp/pl/login?logout=1',
+            'Sec-Fetch-Dest': 'empty',
+            'Sec-Fetch-Mode': 'cors',
+            'Sec-Fetch-Site': 'same-origin',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0',
+            'X-Request-Id': self.refNo,
+            'biz-platform': 'biz-1.0',
+            'biz-tracking': '/cp/pl/login/1',
+            'biz-version': '1.1.31942.1616',
+            'sec-ch-ua': '"Not/A)Brand";v="8", "Chromium";v="126", "Microsoft Edge";v="126"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"'
+            }
+            if self.sessionId:
+                headers['Authorization'] = 'Bearer ' + self.sessionId
+        if type == "public":
+            headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'ClientMessageId': self.refNo,
+            'Connection': 'keep-alive',
+            'Origin': 'https://ebank.mbbank.com.vn',
+            'RefNo': self.refNo,
+            'Referer': 'https://ebank.mbbank.com.vn/',
+            'Sec-Fetch-Dest': 'empty',
+            'Sec-Fetch-Mode': 'cors',
+            'Sec-Fetch-Site': 'same-site',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0',
+            'biz-platform': 'biz-1.0',
+            'biz-tracking': '/cp//1',
+            'biz-version': '1.37342.1940',
+            'sec-ch-ua': '"Chromium";v="130", "Microsoft Edge";v="130", "Not?A_Brand";v="99"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sessionId': self.sessionId
+            }
+            if self.accessToken:
+                headers['Authorization'] = 'Bearer ' + self.accessToken
+
+        response = self.session.get(url, headers=headers)
 
         result = response.json()
         return result
@@ -419,7 +487,13 @@ Yr4ZPChxNrik1CFLxfkesoReXN8kU/8918D0GLNeVt/C\n\
         }
         result = self.curlPost(self.url['authen-service'] + "3009", param)
         return result
-
+    def get_token_apigee(self):
+        param = {
+        "refNo": self.refNo,
+        }
+        result = self.curlPost(self.url['get_token_apigee'], param)
+        
+        return result
     def doLogin(self):
         solveCaptcha = self.solveCaptcha()
         if not solveCaptcha["status"]:
@@ -439,9 +513,14 @@ Yr4ZPChxNrik1CFLxfkesoReXN8kU/8918D0GLNeVt/C\n\
         if 'result' in result and 'responseCode' in result['result'] and result['result']['responseCode'] == "00":
             self.sessionId = result['sessionId']
             self.accountName = result['cust']['acct_list'][self.account_number]['acctNm']
+            get_token_apigee_result = self.get_token_apigee()
+            if 'apigeeAuthResponse' in get_token_apigee_result:
+                self.accessToken = get_token_apigee_result['apigeeAuthResponse']['accessToken']
             session = {
                 "sessionId": self.sessionId,
+                "accessToken": self.accessToken
             }
+
             self.save_data()
             self.is_login = True
             return {
@@ -482,28 +561,11 @@ Yr4ZPChxNrik1CFLxfkesoReXN8kU/8918D0GLNeVt/C\n\
             'tranId': self.tranId,
             'browserToken': self.browserToken,
             'browserId': self.browserId,
+            'accessToken': self.accessToken
         }
         with open(f"data/{self.username}.txt", "w") as file:
             json.dump(data, file)
 
-    def parseData(self):
-        with open(f"data/{self.username}.txt", "r") as file:
-            data = json.load(file)
-            self.username = data["username"]
-            self.password = data["password"]
-            self.account_number = data.get("account_number", "")
-            self.sessionId = data.get("sessionId", "")
-            self.mobileId = data.get("mobileId", "")
-            self.clientId = data.get("clientId", "")
-            self.token = data.get("token", "")
-            self.accessToken = data.get("accessToken", "")
-            self.authToken = data.get("authToken", "")
-            self.cif = data.get("cif", "")
-            self.res = data.get("res", "")
-            self.tranId = data.get("tranId", "")
-            self.browserToken = data.get("browserToken", "")
-            self.browserId = data.get("browserId", "")
-            self.E = data.get("E", "")
 
     def getE(self):
         ahash = hashlib.md5(self.username.encode()).hexdigest()
@@ -588,27 +650,29 @@ Yr4ZPChxNrik1CFLxfkesoReXN8kU/8918D0GLNeVt/C\n\
                 if not login['success']:
                     return login
         param = {
-            "accountName": self.accountName,
-            "accountNo": account_number if account_number else self.account_number,
+            "acctNo": account_number if account_number else self.account_number,
             "currency": "VND",
             "fromDate": fromDate,
-            "refNo": self.refNo,
             "toDate": toDate,
             "page": page,
             "size": size,
             "top": limit
         }
-        result = self.curlPost(self.url['getHistories'], param)
-        if 'result' in result and 'responseCode' in result['result'] and  result['result']['responseCode'] == '00' and 'transactionHistoryList' in result:
+        query_string = "&".join([f"{key}={value}" for key, value in param.items()])
+        url = f"{self.url['getHistories']}?{query_string}"
+        
+        result = self.curlGet(url,type="public")
+        if 'data' in result and 'result' in result['data'] and 'responseCode' in result['data']['result'] and  result['data']['result']['responseCode'] == '00' and 'transactionHistoryList' in result['data']:
             return {'code':200,'success': True, 'message': 'Thành công',
                             'data':{
-                                'transactions':result['transactionHistoryList'],
+                                'transactions':result['data']['transactionHistoryList'],
                     }}
         else:
             return  {
                     "success": False,
                     "code": 503,
-                    "message": "Service Unavailable!"
+                    "message": "Service Unavailable!",
+                    "data":result
                 }
 
     def getBanks(self):
